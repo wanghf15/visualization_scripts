@@ -44,19 +44,25 @@ for i in range(0, len(esti_lines), 1):
         track_id = spl[3]
         if cur_id == 2826:
             print len(cur_x_esti)
-        if track_count != 0 and cur_count > 350:
+        if track_count != 0 and cur_count > 500:
             # fig, ax1 = plt.subplots(nrows=1, ncols=1)
             # fig = plt.figure(figsize=(4, 3))
             # speed_plot(ax1, cur_x_truth, cur_x_esti)
             # speed_plot(ax2, cur_y_truth, cur_y_esti, label='y-diff')
 
-            fig = plt.figure(figsize=(10, 3))
+            fig = plt.figure(figsize=(16, 9))
+            ax = fig.add_subplot(1, 1, 1)
+            major_ticks = np.arange(0, len(cur_x_truth) ,10)
+            ax.set_xticks(major_ticks)
             plt.plot(cur_x_truth, '-r')
             plt.plot(cur_x_esti, '-b')
             green_patch = mpatches.Patch(color='red', label='Truth speed')
             red_patch = mpatches.Patch(color='blue', label='Esti speed')
-            plt.ylim(-20, 20)
+            plt.ylim(-10, 10)
             plt.legend(handles=[red_patch, green_patch])
+
+            plt.grid()
+
             plt.savefig("output/{}.jpg".format(cur_id), dpi=150)
 
             # plt.tight_layout()
@@ -90,8 +96,8 @@ for i in range(0, len(esti_lines), 1):
             count_third += 1
             x_diff_total_third += x_diff
             y_diff_total_third += y_diff
-        cur_x_esti.append(-x_esti)
-        cur_y_esti.append(-y_esti)
+        cur_x_esti.append(x_esti)
+        cur_y_esti.append(y_esti)
         cur_x_truth.append(x_truth)
         cur_y_truth.append(y_truth)
         # print(x_diff, y_diff, track_id)
@@ -99,6 +105,6 @@ for i in range(0, len(esti_lines), 1):
 print "0 - 20m :"
 print (x_diff_total_first / count_first, y_diff_total_first / count_first)
 print "20 - 45m :"
-print (x_diff_total_second / count_second, x_diff_total_second / count_second)
+print (x_diff_total_second / count_second, y_diff_total_second / count_second)
 print "> 45m :"
-print (x_diff_total_third / count_third, x_diff_total_third / count_third)
+print (x_diff_total_third / count_third, y_diff_total_third / count_third)
